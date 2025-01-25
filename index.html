@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Food Footsteps / Home</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+
+    <body>
+        <div class="navbar">
+            <img src="Imgs/Logo.png" class="logo" alt="Logo Image"/>
+            <ul>
+                <li><a href="info.html">Home</a></li>
+                <li><a href="index.html">Places</a></li>
+                <li><a href="help.html">Help</a></li>
+            </ul>
+            <a href="info.html">Back</a>
+        </div>
+        <div class="sec">
+            <div class="header">
+                <h1>Food Footsteps</h1>
+            </div>
+            <div class="content">
+                <section id="view-place">
+                    <h2>View Places</h2>
+                    <table id="placeTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Nearest Metro</th>
+                                <th>Distance From Metro</th>
+                                <th>Price Range</th>
+                                <th>Google Link</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- place entries will go here -->
+                        </tbody>
+                    </table>
+                </section>
+                <section id="add-place">
+                    <h2>Add Place</h2>
+                    <form id="addPlaceForm">
+                        <label for="name">Place Name:</label>
+                        <input type="text" id="name" name="name" required />
+                        <label for="nearestmetro">Nearest Metro:</label>
+                        <input type="text" id="nearestmetro" name="nearestmetro" required />
+                        <label for="distancefrommetro">Distance From Metro:</label>
+                        <input type="text" id="distancefrommetro" name="distancefrommetro" required /><br /><br />
+                        <label for="pricerange">Price Range:</label>
+                        <input type="text" id="pricerange" name="pricerange" required />
+                        <label for="googlelink">Google Link:</label>
+                        <input type="text" id="googlelink" name="googlelink" required />
+                        <label for="status">Status:</label>
+                        <input type="text" id="status" name="status" required />
+                        <button type="submit">Add place</button>
+                    </form>
+                </section>
+                <section id="update-place">
+                    <h2>Update Place</h2>
+                    <form id="updatePlaceForm">
+                        <label for="updateName">Place Name:</label>
+                        <input type="text" id="updateName" name="updateName" required />
+                        <label for="newnearestmetro">New Nearest Metro:</label>
+                        <input type="text" id="newnearestmetro" name="newnearestmetro" required />
+                        <label for="newdistancefrommetro">New Distance From Metro:</label>
+                        <input type="text" id="newdistancefrommetro" name="newdistancefrommetro" required /><br /><br />
+                        <label for="newpricerange">New Price Range:</label>
+                        <input type="text" id="newpricerange" name="newpricerange" required />
+                        <label for="newgooglelink">New Google Link:</label>
+                        <input type="text" id="newgooglelink" name="newgooglelink" required />
+                        <label for="newstatus">New Status:</label>
+                        <input type="text" id="newstatus" name="newstatus" required />
+                        <button type="submit">Update Place</button>
+                    </form>
+                </section>
+                <section id="delete-place">
+                    <h2>Delete place</h2>
+                    <form id="deletePlaceForm">
+                        <label for="deleteName">Place Name:</label>
+                        <input type="text" id="deleteName" name="deleteName" required />
+                        <button type="submit">Delete Place</button>
+                    </form>
+                </section>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="sec">
+                <div class="col">
+                    <p>Home</p>
+                </div>
+                <div class="col">
+                    <p>Contact</p>
+                </div>
+                <div class="col">
+                    <p>Our Story</p>
+                    <p>FAQs</p>
+                </div>
+                <div class="col">
+                    <p>Platform Terms and Conditions</p>
+                    <p>Acceptable Use Policy</p>
+                    <p>Privacy Policy</p>
+                    <p>Terms and Conditions</p>
+                </div>
+            </div>
+            <div class="copy">
+                <p>© Food Footsteps 2024</p>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
