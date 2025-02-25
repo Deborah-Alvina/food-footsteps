@@ -57,7 +57,7 @@ section {
 label {
     font-weight: bold;
 }
-input[type="text"], input[type="email"], input[type="password"] {
+.form input[type="text"], input[type="email"], input[type="password"] {
     width: 100%;
     padding: 10px;
     font-size: 16px;
