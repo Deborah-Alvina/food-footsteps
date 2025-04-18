@@ -1,10 +1,12 @@
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname))); 
 
 // Connect to the MySQL database
 const db = mysql.createConnection({
@@ -142,6 +144,76 @@ app.delete(`/places`, (req, res) => {
     }
   });
 });
+
+const bcrypt = require('bcrypt');
+
+// User Signup
+app.post('/signup', async (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    return res.status(400).send({ message: 'All fields are required' });
+  }
+
+  // Check if user already exists
+  const checkUserSql = `SELECT * FROM users WHERE email = ?`;
+  db.query(checkUserSql, [email], async (err, results) => {
+    if (err) {
+      console.error('Error checking user:', err);
+      return res.status(500).send({ message: 'Server error' });
+    }
+
+    if (results.length > 0) {
+      return res.status(409).send({ message: 'User already exists' });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert user into DB
+    const insertSql = `INSERT INTO users (name, email, password) VALUES (?, ?, ?)`;
+    db.query(insertSql, [name, email, hashedPassword], (err, result) => {
+      if (err) {
+        console.error('Error creating user:', err);
+        return res.status(500).send({ message: 'Server error' });
+      }
+
+      res.status(201).send({ message: 'User created successfully' });
+    });
+  });
+});
+
+
+// User Login
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).send({ message: 'Email and password are required' });
+  }
+
+  const sql = `SELECT * FROM users WHERE email = ?`;
+  db.query(sql, [email], async (err, results) => {
+    if (err) {
+      console.error('Error fetching user:', err);
+      return res.status(500).send({ message: 'Server error' });
+    }
+
+    if (results.length === 0) {
+      return res.status(401).send({ message: 'Invalid email or password' });
+    }
+
+    const user = results[0];
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).send({ message: 'Invalid email or password' });
+    }
+
+    res.status(200).send({ message: 'Login successful', name: user.name });
+  });
+});
+
 
 app.listen(3000, () => {
   console.log(`Server started on port 3000`);
