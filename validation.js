@@ -52,11 +52,11 @@ form.addEventListener('submit', async (e) => {
                 if (email_input.value === 'deborahalvina@gmail.com') {
                     window.location.href = '/index.html';
                 } else {
-                    window.location.href = '/info.html';
+                    window.location.href = '/home.html';
                 }
             } else {
                 // If signup is successful, go to index.html
-                window.location.href = '/info.html';
+                window.location.href = '/home.html';
             }
         } else {
             // ❌ Show server error messages (e.g., "User already exists" or "Invalid credentials")

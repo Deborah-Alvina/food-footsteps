@@ -255,11 +255,44 @@ div:has(input:focus) > label i {
     border-radius: 10px;
 }
 
+#cards {
+    padding: 20px;
+    margin-right: 30px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 60px;
+    row-gap: 30px;
+    justify-content: center;
+}
+
+.card {
+    width: fit-content;
+    height: fit-content;
+    border: 2px solid var(--clrb);
+    padding: 20px;
+}
+
+.card p,h4 {
+    margin: 1px;
+    text-align: left;
+}
+
+.card img {
+    object-fit: cover;
+    width: 240px;
+    height: 240px;
+}
+
 .footer{
     background-color: var(--clr2);
     height: 300px;
     padding-top: 20px;
     color: var(--clrw);
+}
+
+.footer p {
+    cursor: pointer;
 }
 
 .col{
@@ -270,6 +303,11 @@ div:has(input:focus) > label i {
     font-size: 18px;
 }
 
+.col a {
+    text-decoration: none;
+    color: var(--clrw);
+}
+
 .sec{
     display: flex;
 }
@@ -278,6 +316,16 @@ div:has(input:focus) > label i {
     float: right;
     padding-right: 60px;
     padding-top: 20px;
+}
+
+#logout {
+    padding: 15px;
+    background-color: var(--clr4);
+    border-radius: 5px;
+    color: var(--clrw);
+    text-decoration: none;
+    box-shadow: 2px 2px 2px var(--clr2);
+    cursor: pointer;
 }
 
 #ques {
