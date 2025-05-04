@@ -30,7 +30,7 @@
                                 <th>Distance From Metro</th>
                                 <th>Price Range</th>
                                 <th>Google Link</th>
-                                <th>Status</th>
+                                <th>Image</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,7 +40,7 @@
                 </section>
                 <section id="add-place">
                     <h2>Add Place</h2>
-                    <form id="addPlaceForm">
+                    <form id="addPlaceForm" enctype="multipart/form-data">
                         <label for="name">Place Name:</label>
                         <input type="text" id="name" name="name" required />
                         <label for="nearestmetro">Nearest Metro:</label>
@@ -51,8 +51,8 @@
                         <input type="text" id="pricerange" name="pricerange" required />
                         <label for="googlelink">Google Link:</label>
                         <input type="text" id="googlelink" name="googlelink" required />
-                        <label for="status">Status:</label>
-                        <input type="text" id="status" name="status" required />
+                        <label for="image">Upload Image:</label>
+                        <input type="file" id="image" name="image" accept="image/*" required />
                         <button type="submit">Add place</button>
                     </form>
                 </section>
@@ -61,16 +61,16 @@
                     <form id="updatePlaceForm">
                         <label for="updateName">Place Name:</label>
                         <input type="text" id="updateName" name="updateName" required />
-                        <label for="newnearestmetro">New Nearest Metro:</label>
+                        <label for="newnearestmetro">Nearest Metro:</label>
                         <input type="text" id="newnearestmetro" name="newnearestmetro" required />
-                        <label for="newdistancefrommetro">New Distance From Metro:</label>
+                        <label for="newdistancefrommetro">Distance From Metro:</label>
                         <input type="text" id="newdistancefrommetro" name="newdistancefrommetro" required /><br /><br />
-                        <label for="newpricerange">New Price Range:</label>
+                        <label for="newpricerange">Price Range:</label>
                         <input type="text" id="newpricerange" name="newpricerange" required />
-                        <label for="newgooglelink">New Google Link:</label>
+                        <label for="newgooglelink">Google Link:</label>
                         <input type="text" id="newgooglelink" name="newgooglelink" required />
-                        <label for="newstatus">New Status:</label>
-                        <input type="text" id="newstatus" name="newstatus" required />
+                        <label for="newimage">Upload Image:</label>
+                        <input type="file" id="newimage" name="newimage" accept="image/*" required />
                         <button type="submit">Update Place</button>
                     </form>
                 </section>

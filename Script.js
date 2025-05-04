@@ -1,125 +1,131 @@
-// Get a reference to the table body
+// Get references
 const placeTable = document.getElementById('placeTable').getElementsByTagName('tbody')[0];
 
-// Display places
+// Load places from server
 async function loadPlaces() {
-  const response = await fetch('http://localhost:3000/places');
-  const places = await response.json();
-  
-  // Clear the table before inserting new rows
-  placeTable.innerHTML = '';
+  try {
+    const response = await fetch('http://localhost:3000/places');
+    const places = await response.json();
 
-  // Insert each place into the table name, nearestmetro, 
-  // distancefrommetro, pricerange, googlelink, status
-  places.forEach(place => {
-    const newRow = placeTable.insertRow();
-    newRow.insertCell(0).innerText = place.name;
-    newRow.insertCell(1).innerText = place.nearestmetro;
-    newRow.insertCell(2).innerText = place.distancefrommetro;
-    newRow.insertCell(3).innerText = place.pricerange;
-    newRow.insertCell(4).innerText = place.googlelink;
-    newRow.insertCell(5).innerText = place.status;
-  });
+    placeTable.innerHTML = '';
+    places.forEach(place => {
+      const row = placeTable.insertRow();
+
+      row.insertCell(0).innerText = place.name;
+      row.insertCell(1).innerText = place.nearestmetro;
+      row.insertCell(2).innerText = place.distancefrommetro;
+      row.insertCell(3).innerText = place.pricerange;
+
+      const linkCell = row.insertCell(4);
+      const link = document.createElement('a');
+      link.href = place.googlelink;
+      link.target = '_blank';
+      link.innerText = place.googlelink;
+      linkCell.appendChild(link);
+
+      const imageCell = row.insertCell(5);
+      const image = document.createElement('a');
+      image.href = place.image_url;
+      image.target = '_blank';
+      image.innerText = place.image_url;
+      imageCell.appendChild(image);
+    });
+  } catch (err) {
+    console.error('Failed to load places:', err);
+  }
 }
 
-// Fetch and display places on page load
-document.addEventListener('DOMContentLoaded', loadPlaces);
+// Add place handler
+document.getElementById('addPlaceForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
 
-// Add place
-document.getElementById('addPlaceForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
-    const name = document.getElementById('name').value;
-    const nearestmetro = document.getElementById('nearestmetro').value;
-    const distancefrommetro = document.getElementById('distancefrommetro').value;
-    const pricerange = document.getElementById('pricerange').value;
-    const googlelink = document.getElementById('googlelink').value;
-    const status = document.getElementById('status').value;
-
-    try {
-      const response = await fetch('http://localhost:3000/places', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, nearestmetro, distancefrommetro, pricerange, googlelink, status })
-      });
-
-      if (!response.ok) {
-        // If the response is not OK, throw an error with the response text
-        const errorText = await response.text();
-        throw new Error(errorText);
-      }
-
-      // Parse the response JSON (if any)
-      const data = await response.json();
-      console.log('place added successfully', data);
-
-      loadPlaces(); // Refresh the places table (assuming loadplaces is a function to update the display)
-      this.reset(); // Reset the form after successful submission
-      
-    } catch (error) {
-      console.error('Error adding place:', error);
-      alert(error.message); // Show the error message to the user
-    }
-});
-
-  
-
-// Update place
-document.getElementById('updatePlaceForm').addEventListener('submit', async function(event) {
-  event.preventDefault();
-
-  const name = document.getElementById('updateName').value;
-  const nearestmetro = document.getElementById('newnearestmetro').value;
-  const distancefrommetro = document.getElementById('newdistancefrommetro').value;
-  const pricerange = document.getElementById('newpricerange').value;
-  const googlelink = document.getElementById('newgooglelink').value;
-  const status = document.getElementById('newstatus').value;
+  const form = e.target;
+  const formData = new FormData(form);
 
   try {
-    const response = await fetch('http://localhost:3000/places', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, nearestmetro, distancefrommetro, pricerange, googlelink, status })
+    const res = await fetch('http://localhost:3000/places', {
+      method: 'POST',
+      body: formData
     });
 
-    if (!response.ok) {
-      // If the response is not ok (status code is not 2xx)
-      throw new Error(`Failed to update place: ${response.statusText}`);
+    const data = await res.json();
+    if (res.ok) {
+      alert('Place added successfully');
+      form.reset();
+      loadPlaces();
+    } else {
+      alert(`Error: ${data.message}`);
     }
+  } catch (err) {
+    console.error('Add failed:', err);
+    alert('Server error while adding place.');
+  }
+});
 
-    const data = await response.json(); // You can check the message from the server
-    console.log(data.message); // Log the success message from the server
+// Update place handler
+document.getElementById('updatePlaceForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
 
-    loadPlaces(); // Refresh the place table with updated data
-    this.reset(); // Reset the form fields
+  const form = e.target;
+  const formData = new FormData();
 
-  } catch (error) {
-    console.error('Error updating place:', error);
-    // Optionally, show an error message to the user
-    alert('An error occurred while updating the place. Please try again.');
+  formData.append('name', document.getElementById('updateName').value);
+  formData.append('nearestmetro', document.getElementById('newnearestmetro').value);
+  formData.append('distancefrommetro', document.getElementById('newdistancefrommetro').value);
+  formData.append('pricerange', document.getElementById('newpricerange').value);
+  formData.append('googlelink', document.getElementById('newgooglelink').value);
+
+  const imageInput = document.getElementById('newimage');
+  if (imageInput.files.length > 0) {
+    formData.append('image', imageInput.files[0]);
+  }
+
+  try {
+    const res = await fetch('http://localhost:3000/places', {
+      method: 'PUT',
+      body: formData,
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      alert('Place updated successfully');
+      form.reset();
+      loadPlaces();
+    } else {
+      alert(`Error: ${data.message}`);
+    }
+  } catch (err) {
+    console.error('Update failed:', err);
+    alert('Server error while updating place.');
   }
 });
 
 
-  
-
-// Delete place
-document.getElementById('deletePlaceForm').addEventListener('submit', async function(event) {
-  event.preventDefault();
-  
+// Delete place handler
+document.getElementById('deletePlaceForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
   const name = document.getElementById('deleteName').value;
-  
-  // Send the DELETE request to remove a place
-  await fetch('http://localhost:3000/places', {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name })
-  });
-  
-  // Refresh the table after deleting a place
-  loadPlaces(); 
-  
-  this.reset(); // Clear the form
+
+  try {
+    const res = await fetch('http://localhost:3000/places', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name })
+    });
+
+    const msg = await res.text();
+    if (res.ok) {
+      alert(msg);
+      e.target.reset();
+      loadPlaces();
+    } else {
+      alert(`Error: ${msg}`);
+    }
+  } catch (err) {
+    console.error('Delete failed:', err);
+    alert('Server error while deleting place.');
+  }
 });
 
-// Initial load of places
-loadPlaces();
+// Load places on page load
+document.addEventListener('DOMContentLoaded', loadPlaces);

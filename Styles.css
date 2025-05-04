@@ -257,13 +257,13 @@ div:has(input:focus) > label i {
 
 #cards {
     padding: 20px;
-    margin-right: 30px;
+    margin: 0px 65px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     column-gap: 60px;
     row-gap: 30px;
-    justify-content: center;
+    justify-content: left;
 }
 
 .card {
@@ -293,6 +293,13 @@ div:has(input:focus) > label i {
 
 .footer p {
     cursor: pointer;
+}
+
+.card {
+    transition: transform 0.2s ease;
+}
+.card:hover {
+    transform: scale(1.02);
 }
 
 .col{
